@@ -1,0 +1,31 @@
+{
+  "name": "maxmate",
+  "version": "1.0.0",
+  "description": "manage packages for app MaxMate",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "cd src && node app.js",
+    "watch": "babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch",
+    "serve": "live-server public",
+    "build": "webpack --watch",
+    "dev-server": "webpack-dev-server"
+  },
+  "author": "JPW",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "live-server": "^1.2.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "webpack": "^4.28.4",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.2.1"
+  }
+}

@@ -1,0 +1,155 @@
+1. Create an index.html file within a 'public' folder.
+2. Ensure that 'babel-cli@6.24.1', and 'live-server' are installed globally using command 'npm install -g [package]'
+3. Hook up React using one of two ways:
+    + Add the following script tags to the HTML file:
+            <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+            <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    + All scripts should be at the BOTTOM of the body so that the DOM renders prior to the JS.
+4. Run 'npm init' so that we can start tracking our node packages with a package.json file.
+    + Run: 'npm install --save babel-preset-react@6.24.1 babel-preset-env@1.5.2' which turns our React code down to ES5 code.
+5. Make a 'src' folder and put the app.js inside.
+6. Run 'babel src/app.js --out-file=public/scripts/app.js --presets=env,react' so that our 'app.js' file in our scripts folder is compiled down to ES5 code for us using Babel.
+    + You can add '--watch' to the end of the above command to keep a live watch and app.js file regeneration going.
+7. Running 'live-server' is used to keep the web server alive and looking / refreshing any changes made. Live server should be initially running alongside Babel and pointing at your app.js in the public folder.
+
+Re-rendering JSX on events (user data change).
+    - Something like a counter (with buttons and a score display) will need to be re-rendered by ReactDOM.render in order to reflect a change of value.
+    - you can initiate a component variable. 
+    - Throw the ReactDOM.render() call inside of a function that gets called when:
+        1. The web page is first fully loaded
+        2. When a user event changes values and the code needs to be rendered to reflect the change.
+        + This function will also assign (re-assign) the value(s) of the components that encase the value that changed. Call ReactDOM.render([componentThatChanged], appRoot) at the end.
+
+Automating running babel-cli and live-server 
+    - Run the following to uninstall: 'npm uninstall -g live-server babel-cli'
+        + AVOID Global modules.
+    - Add the packages manually with 'npm install babel-cli@6.24.1 live-server'
+    - THEN define these scripts within the 'scripts' section in package.json (naming them whatever you like)
+        + These can be run by 'npm run [custom-script]'
+
+Adding webpack
+    - Run 'npm install --save webpack@3.1.0 webpack-cli webpack-dev-server'
+    - You will have to define in the webpack.config.js file where it's entry point is (usually app.js in src file) and where to output (bundle.js in public folder)
+        + Use the path module built into node to join paths.
+        + designate where the bundle.js should populate (in the public folder)
+    - add the '--watch' tag to the webpack build script in package.json so that it automatically watches for changes.
+        + Remember, at this point you still need live-server (npm run serve) running when you run npm run build.
+    - Source Maps: 
+        + Add the line "devtool: 'cheap-module-eval-source-map'" so that it maps errors back to it's original file, and not the bundle.js.
+
+Exporting and Importing
+    - Should now be available
+    - export {namedExport1, namedExport2, export3 as default} => for multiple exports
+        + In the importing file, 'import export3, {namedExport1, namedExport2} from './pathToFile.js'
+        + In the case of defaults, you can name them anything you want on import.
+    - for singular exports: export default functionName (or React component class)
+        + In the importing file, 'import functionName from './pathToFile.js'
+    - All React components ideally want to live in a 'Components' folder within the src folder, each
+        having their own file.
+
+Using Babel to incorporate (convert) JSX to React  
+    - run 'npm install babel-core@6.25.0 babel-loader@7.1.1 --save'
+    - Then set up the module part of webpack => rules array
+    - THEN you need a separate configuration file (.babelrc)
+        + This will tell babel what to do using its presets.
+
+    - Using babel plugin transform-class-properties:
+        + run 'npm install --save babel-plugin-transform-class-properties'
+        + Add '"plugins": ["transform-class-properties"]' to the .babelrc file.
+        + This will allow you to use arrow functions on classes, which auto-binds 'this' to the particular instance of the
+            component.
+        + This also allows you to add defaultProps or propTypes fields as 'static' properties within the class.
+        + This also allows state to be defined without being called in a constructor.
+
+Using webpack-dev-server
+    - This is a replacement for live-server and the webpack --watch that we use above, and we tell it where to look for our content using its' contentBase functionality.
+        + Changes are live reloaded, speedy.
+        + You can actually also TRASH the bundle.js file in the public folder. Webpack is no longer generating content based off of that file, and is serving up content from memory not writing the physical file and serving it, which can be expensive. There is NO physical bundle file associated with this.
+    - Run 'npm install --save webpack-dev-server@2.5.1'
+    - Add the following to the webpack.config.js file:   
+        'devServer: {
+            contentBase: path.join(__dirname, 'public')
+        }'
+    - At this point, you can go into package.json and clean out some of the scripts.
+        + remove "babel"
+        + add '"dev-server": "webpack-dev-server"' as a script.
+        + You can now shut down the live-server and webpack --watch commands and run the npm run dev-server.
+
+Using props.children
+    + If you'd like to render a component / JSX with something inside, you can utilize the props.children call.
+    + This accesses any JSX you place inside the opening and closing tags of the component.
+    + <Component><p>this is a child</p></Component>
+    + Within Component definition we can place {props.children} which will render the paragraph.
+
+Incorporating Styles using SCSS
+    + Add a Styles folder within the 'src' folder along with any pertinent files with a '.scss' extension
+    + Add the following rule to the webpack config, which looks for any files with the scss OR css extension: 
+      {
+        test: /\.s?css$/,
+        use: [
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+        ]
+      }
+    + You will need a few loaders to render scss: 
+        1. CSS Loader: Allows webpack to take and load in the css by converting it to a JavaScript representation of its' styles. 
+        2. Style Loader: Adds CSS to the DOM by injecting a <style> tag.
+        3. sass-loader: allows us to import scss files
+        4. node-sass: takes SCSS code and converts to css.
+    + Run: 'npm install style-loader@0.18.2 css-loader@0.28.4 sass-loader@6.0.6 node-sass@4.5.3 --save'
+    + You can then import style files as you would components into the app.js file.
+    + You're going to be exporting / importing styles similar to what we do with React components.
+        + Create a 'base' folder within Styles folder, and a partial file called '_base.scss' which means that it only will be exporting
+        + Import syntax
+            At the top of each file: '@import "./path/toFile";'
+
+SCSS Variables
+    + Variables, declared at the top of the file, start with a '$' and each line ends with a ';'
+
+    + SCSS supports nested selectors, but this should be avoided in favor of class selectors.
+        + BEM: Block Element Modifier naming convention.
+
+    + A '_settings.scss' file can also live in your 'base' folder, and hold universal variables for values used continuously (colors, spacing, etc)
+        - Import at the top of the styles.scss page so that all other pages can use / inherit from.
+    
+    + SCSS reference functions: http://sass-lang.com/documentation/Sass/Script/Functions.html
+
+    Modifiers are denoted with a '.baseClass--modifier' className. 
+        - This is for when you have a modified version of a base class.
+
+CSS Resets:
+    + Used so that all users browsers start at the same point stylistically.
+        - We can use something called normalize for this.
+    + Run 'npm install --save normalize.css@7.0.0'
+    + 'import normalize.css/normalize.css' goes at the top of your app.js file.
+
+React-Router
+    + Client-side rendering: much cheaper than server-side routing. There is a reach to the server for the first time that the browser has to render the page, but after that, all routing and rendering is done client-side.
+    + Each route (endpoint) has an associated component / group of components to render once hit.
+    + 'npm install --save react-router-dom@4.2.2'
+    + BrowserRouter and Route should be imported. BrowserRouter is initialized once, and all pertinent routes are proclaimed inside within a <Switch>.
+        - <Route> takes a path prop and a component to render when that endpoint is hit.
+        - Switch moves through your <Route> tags in order, finds the match then stops (does not check later routes)
+        - You can then declare your very last 404 route (no path matched) at the bottom for it to default to if no route is found
+    + You'll have to add the following to the webpack config file in the devServer in order for it to default to index.html
+        - 'historyApiFallback: true'
+    + Make sure you add the 'exact' prop where needed so that you don't see 'stacking' of components of different endpoints on the same page
+
+Redux: A Global State Container
+
+    + Components have given us the illusion of reuseability even though most components rely on the props they are given to function correctly. 
+        - In order to truly be able to reuse a component, the best way would be to store the state in a neutral, non-component-based state system, which is where Redux comes in.
+        - Redux is also going to give state a place to stay accessible in applications where there is no central parent component to track a simple state.
+    + Redux also helps avoid passing props all the way down a tree, through components that do NOT need access to those props. 
+
+    Redux Store is just an {object}
+
+    + Install: 'npm install --save redux@3.7.2'
+    + import {createStore} from 'redux
+        - this instantiates your store.
+        - var store = createStore((state = { count: 0 }) => {
+            return state
+        })
+            + give it a default state value in the function so that it has something if not given anything at all
+        - store.getState()
