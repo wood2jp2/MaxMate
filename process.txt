@@ -7,6 +7,7 @@
     + All scripts should be at the BOTTOM of the body so that the DOM renders prior to the JS.
 4. Run 'npm init' so that we can start tracking our node packages with a package.json file.
     + Run: 'npm install --save babel-preset-react@6.24.1 babel-preset-env@1.5.2' which turns our React code down to ES5 code.
+    + 'babel-plugin-transform-class-properties': will automatically bind arrow functions on classes to the instance of this. You also won't need to call a constructor or super.
 5. Make a 'src' folder and put the app.js inside.
 6. Run 'babel src/app.js --out-file=public/scripts/app.js --presets=env,react' so that our 'app.js' file in our scripts folder is compiled down to ES5 code for us using Babel.
     + You can add '--watch' to the end of the above command to keep a live watch and app.js file regeneration going.
@@ -33,12 +34,13 @@ Adding webpack
         + Use the path module built into node to join paths.
         + designate where the bundle.js should populate (in the public folder)
     - add the '--watch' tag to the webpack build script in package.json so that it automatically watches for changes.
-        + Remember, at this point you still need live-server (npm run serve) running when you run npm run build.
+        + Remember, at this point you still need live-server (npm run serve) running when you run npm run build ("webpack --watch").
+    - You will still need live-server running (npm run serve) but won't need babel (npm run watch) running.
     - Source Maps: 
         + Add the line "devtool: 'cheap-module-eval-source-map'" so that it maps errors back to it's original file, and not the bundle.js.
 
 Exporting and Importing
-    - Should now be available
+    - Should now be available and will be needed.
     - export {namedExport1, namedExport2, export3 as default} => for multiple exports
         + In the importing file, 'import export3, {namedExport1, namedExport2} from './pathToFile.js'
         + In the case of defaults, you can name them anything you want on import.
@@ -56,8 +58,7 @@ Using Babel to incorporate (convert) JSX to React
     - Using babel plugin transform-class-properties:
         + run 'npm install --save babel-plugin-transform-class-properties'
         + Add '"plugins": ["transform-class-properties"]' to the .babelrc file.
-        + This will allow you to use arrow functions on classes, which auto-binds 'this' to the particular instance of the
-            component.
+        + This will allow you to use arrow functions on classes, which auto-binds 'this' to the particular instance of the component.
         + This also allows you to add defaultProps or propTypes fields as 'static' properties within the class.
         + This also allows state to be defined without being called in a constructor.
 
