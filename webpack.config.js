@@ -1,11 +1,13 @@
 const path = require('path')
+const resolve = path.resolve
 
 const baseConfig = {
     entry: {
       main: './src/app.js'
     },
     output: {
-        path: path.join(__dirname, 'public'),
+        path: resolve('public'),
+        publicPath: '/',
         filename: 'bundle.js'
     },
     module: {
