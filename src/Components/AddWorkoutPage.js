@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Form, Text } from 'react-form'
-import Workout from './Workout'
+import Exercise from './Exercise'
+import { Link } from 'react-router-dom'
 
 export default class AddWorkoutPage extends Component {
     state = {
         formError: false,
+        // Exercises is an array of objects
         exercises: []
     }
 
@@ -18,7 +20,7 @@ export default class AddWorkoutPage extends Component {
         return {warning: values !== "val" ? 'Please give the exercise a name!' : null}
     }
 
-    onSubmit = e => {
+    submitExercise = e => {
         e.preventDefault()
 
         const { exerciseName, sets, reps } = e.target
@@ -43,17 +45,22 @@ export default class AddWorkoutPage extends Component {
         }
     }
 
+    submitWorkout = () => {
+        console.log('Request to submit workout received.')
+    }
+
     render = () => (
         <div>
 
             { this.state.exercises.length > 0 ? 
-                this.state.exercises.map(({ exerciseName, sets, reps }, index) => 
-                    <Workout 
-                        key={index}
-                        exerciseName={exerciseName} 
-                        sets={sets} 
-                        reps={reps}
-                    />)
+                this.state.exercises.map(
+                    ({ exerciseName, sets, reps }, index) => 
+                        <Exercise 
+                            key={index}
+                            exerciseName={exerciseName} 
+                            sets={sets} 
+                            reps={reps}
+                        />)
                 :
                 <p>There are no exercises added to this workout yet!</p>
             }
@@ -61,7 +68,7 @@ export default class AddWorkoutPage extends Component {
             <h3>Add Workout Form</h3>
             <Form>
                 { formApi => (
-                    <form onSubmit={this.onSubmit} id="addWorkoutForm">
+                    <form onSubmit={this.submitExercise} id="addWorkoutForm">
                         <label htmlFor="exercise">Exercise: </label>
                         <Text field="exercise" id="exerciseName" validate={this.validateForm} placeholder="ex. Bench" />
                         <label htmlFor="sets">Sets: </label>
@@ -73,6 +80,11 @@ export default class AddWorkoutPage extends Component {
                 )}
             </Form>
             {this.state.formError && <p>Please provide a name for the exercise!</p>}
+            { this.state.exercises.length > 0 && 
+                <Link to={{ pathname: '/workouts', state: [...this.state.exercises] }}>
+                    <button onClick={this.submitWorkout}>Submit Workout</button>
+                </Link>
+            }
         </div>
     )
     

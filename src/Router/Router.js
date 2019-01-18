@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from '../Components/Header'
 import HomePage from '../Components/HomePage'
 import PageNotFound from '../Components/PageNotFound'
-import Schedule from '../Components/Schedule'
+import WorkoutsPage from '../Components/WorkoutsPage'
 import DietPage from '../Components/DietPage'
 import AddWorkoutPage from '../Components/AddWorkoutPage';
 
@@ -16,8 +16,8 @@ export default () => (
             <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path='/diet' component={DietPage} />
-                <Route exact path="/schedule" component={Schedule} />
-                <Route exact path="/schedule/addWorkout" component={AddWorkoutPage} />
+                <Route exact path="/workouts" render={props => <WorkoutsPage {...props} />} />
+                <Route exact path="/workouts/addWorkout" component={AddWorkoutPage} />
                 <Route component={PageNotFound} />
             </Switch>
             </div>
