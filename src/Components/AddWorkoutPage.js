@@ -15,10 +15,6 @@ export default class AddWorkoutPage extends Component {
         reps.value = "1"
         sets.value = "1"
     }
-    
-    validateForm = values => {
-        return {warning: values !== "val" ? 'Please give the exercise a name!' : null}
-    }
 
     submitExercise = e => {
         e.preventDefault()
@@ -39,19 +35,20 @@ export default class AddWorkoutPage extends Component {
             this.setState( prevState => ({
                 exercises: [...prevState.exercises, exercise],
                 formError: false
-            }), () => console.log(this.state))
+            }))
     
             this.clearInputs({exerciseName, sets, reps})
         }
     }
 
-    submitWorkout = () => {
-        console.log('Request to submit workout received.')
+    clearStateOnSubmit = () => {
+        this.setState(() => ({
+            exercises: []
+        }))
     }
 
     render = () => (
         <div>
-
             { this.state.exercises.length > 0 ? 
                 this.state.exercises.map(
                     ({ exerciseName, sets, reps }, index) => 
@@ -81,11 +78,16 @@ export default class AddWorkoutPage extends Component {
             </Form>
             {this.state.formError && <p>Please provide a name for the exercise!</p>}
             { this.state.exercises.length > 0 && 
-                <Link to={{ pathname: '/workouts', state: [...this.state.exercises] }}>
-                    <button onClick={this.submitWorkout}>Submit Workout</button>
-                </Link>
+                <div>
+                    <Link to='/workouts'>
+                    <button onClick={ e => {
+                        this.clearStateOnSubmit()
+                        this.props.onSubmitWorkout(this.state.exercises)
+                    }}>Submit Workout</button>
+                    </Link>
+                </div>
             }
-        </div>
+            </div>
     )
     
 }

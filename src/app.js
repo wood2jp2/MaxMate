@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Router from './Router/Router'
+import AppRouter from './Router/Router'
 
 const App = () => 
     (
         <div>
-            <Router />
+            <AppRouter />
         </div>
     )
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Exercise from './Exercise'
 
-export default props => (
+ const Workout = props => (
     <div>
         { props.exercises.map((exercise, index) => (
             <Exercise 
@@ -11,3 +11,5 @@ export default props => (
         )) }
     </div>
 )
+
+export default Workout

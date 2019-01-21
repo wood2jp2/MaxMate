@@ -1,0 +1,8 @@
+Workouts: []Workout => array of workouts
+Workout: []Exercise => array of exercises
+Exercise: {} => object with exercise name, reps, and sets defined.
+
+
+The workout page should populate with two pre-populated workouts, consisting of one exercise each. When I navigate to the 'Add workout' page, I should be able to add exercises (as many as I'd like). When done, I click the Add Workout button. The array of exercises should be passed through the route back to the WorkoutPage. WorkoutPage senses that there are props coming to it, (through props.location.state) and should add that array to the current state array, which is the workouts array. Following, the JSX is rendered to the page, so that the newest workout just added is shown on the page.
+
+What is currently happening is that the workout is added, but takes the place of the last workout that was added, OR if no workout is added, it removes the last one.

@@ -6,21 +6,21 @@ import HomePage from '../Components/HomePage'
 import PageNotFound from '../Components/PageNotFound'
 import WorkoutsPage from '../Components/WorkoutsPage'
 import DietPage from '../Components/DietPage'
-import AddWorkoutPage from '../Components/AddWorkoutPage';
 
-export default () => (
+const AppRouter = () => (
     <div>
         <Router>
             <div>
             <Header />
             <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route exact path='/diet' component={DietPage} />
-                <Route exact path="/workouts" render={props => <WorkoutsPage {...props} />} />
-                <Route exact path="/workouts/addWorkout" component={AddWorkoutPage} />
+                <Route path='/diet' component={DietPage} />
+                <Route path="/workouts" component={WorkoutsPage} />
                 <Route component={PageNotFound} />
             </Switch>
             </div>
         </Router>
     </div>
 )
+
+export default AppRouter

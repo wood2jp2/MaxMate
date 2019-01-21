@@ -1,51 +1,58 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import Workout from './Workout'
+import AddWorkoutPage from './AddWorkoutPage'
 
 export default class WorkoutsPage extends Component {
 
     state = {
         // This is going to need to be an array of workouts (consisting of exercises). A workout is an array of objects (exercises)
-        workouts: [[{ exerciseName: "ExampleBench", sets: 4, reps: 8 }], [{ exerciseName: "ExampleBench2", sets: 4, reps: 8 }]]
+        workouts: [],
+        addingWorkout: false
     }
 
-    addWorkout = () => {
-        
+    onSubmitWorkout = e => {
+        this.setState(prevState => ({
+            workouts: [...prevState.workouts, e],
+            addingWorkout: false
+        }))
     }
 
-    componentWillMount = () => {
-
-        if (this.props.location.state.length > 0) {
-            this.setState(prevState => {
-                console.log("prevState.workouts: ", prevState.workouts)
-                return {
-                    workouts: prevState.workouts.concat(this.props.location.state)
-                }
-            }, () => {
-                console.log("this.state.workouts: ", this.state.workouts)
-            })
-        }
-        else {
-            console.log("There is no workouts to add to the state at this moment")
-        }
+    navigateToAddWorkout = () => {
+        this.setState(() => ({ addingWorkout: true }))
+        this.props.history.push('/workouts/addWorkout')
     }
 
     render = () => (
         <div>
-            <p>This is the workouts page</p>
-            <Link to="/workouts/past">Past Workouts</Link>
-            <p>Today's Workout</p>
-            <Link to="/workouts/upcoming">Scheduled Workouts</Link>
-            <Link to="/workouts/addWorkout"><button>Add Workout</button></Link>
-            {this.state.workouts.length > 0 &&
-                    this.state.workouts.map((workout, index) => (
-                        <Workout
-                             key={index} 
-                             exercises={[...workout]}
-                        />
-                        )
-                    )
+            <h2>Workouts</h2>
+            {
+                !this.state.addingWorkout ?
+                    <div>             
+                        <Link to="/workouts/past"><h4>Past Workouts</h4></Link>
+                        <h4>Today's Workout</h4>
+                        <Link to="/workouts/upcoming"><h4>Scheduled Workouts</h4></Link>
+                        <button onClick={this.navigateToAddWorkout}>Add Workout</button>
+                        {
+                            this.state.workouts.length > 0 ?
+                            this.state.workouts.map((workout, index) => (
+                                <div key={index}>
+                                    <h4>Workout #{index+1}: </h4>
+                                    <Workout
+                                        exercises={[...workout]}
+                                    />
+                                </div>
+                                )
+                            )
+                            :
+                            <p>There are currently no workouts to show!</p>
+                        }
+                    </div>
+                    :
+                <AddWorkoutPage onSubmitWorkout={this.onSubmitWorkout} />
             }
+
+
         </div>
     )
 }

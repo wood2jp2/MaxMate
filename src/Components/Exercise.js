@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default props => {
+ const Exercise = props => {
     return (
         <div>
             <p>Exercise: {props.exerciseName}</p>
@@ -9,3 +9,5 @@ export default props => {
         </div>
     )
 }
+
+export default Exercise

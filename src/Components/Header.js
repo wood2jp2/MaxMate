@@ -1,15 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-export default () => (
+ const Header = () => (
     <div>
-        <h3>MaxMate</h3>
+        <h1>MaxMate</h1>
         <div>
-            <Link to='/'>Home</Link>
-            <Link to='/exercises'>Exercises</Link>
-            <Link to='/workouts'>Workouts</Link>
-            <Link to='/diet'>Diet</Link>
+            <NavLink to='/'>Home</NavLink>
+            <NavLink to='/exercises'>Exercises</NavLink>
+            <NavLink to='/workouts'>Workouts</NavLink>
+            <NavLink to='/diet'>Diet</NavLink>
         </div>
     </div>
 )
+
+export default Header
 
