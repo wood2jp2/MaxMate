@@ -16,11 +16,10 @@ const AppRouter = () => (
             <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route path='/diet' component={DietPage} />
+                <Route exact path="/workouts" render={props => <WorkoutsPage {...props} />} />
+                <Route exact path="/workouts/addWorkout" component={AddWorkoutPage} />
 
-                <Route path="/workouts" component={WorkoutsPage} />
-                <Route exact path="/workouts/:id" render={props => {
-                    return <AddWorkoutPage workout={props.workout} />
-                }} />
+
                 <Route component={PageNotFound} />
             </Switch>
             </div>

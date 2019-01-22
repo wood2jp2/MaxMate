@@ -10,6 +10,17 @@ export default class AddWorkoutPage extends Component {
         exercises: []
     }
 
+    componentWillMount = () => {
+        // console.log(this.props.location.state)
+        // if (this.props.location.state.workouts !== undefined) {
+        //     this.setState(() => {
+        //         return {
+        //             exercises: [...this.props.location.state.workouts[0]]
+        //         }
+        //     })
+        // }
+    }
+
     clearInputs = ({ exerciseName, reps, sets }) => {
         exerciseName.value = ""
         reps.value = "1"
@@ -79,11 +90,15 @@ export default class AddWorkoutPage extends Component {
             {this.state.formError && <p>Please provide a name for the exercise!</p>}
             { this.state.exercises.length > 0 && 
                 <div>
-                    <Link to='/workouts'>
-                    <button onClick={ e => {
-                        this.clearStateOnSubmit()
-                        this.props.onSubmitWorkout(this.state.exercises)
-                    }}>Submit Workout</button>
+                    <Link to={{
+                        pathname: '/workouts',
+                        state: {
+                            exercises: [...this.state.exercises]
+                        }
+                    }}>
+                    <button onClick={this.clearStateOnSubmit}>
+                        Submit Workout
+                    </button>
                     </Link>
                 </div>
             }

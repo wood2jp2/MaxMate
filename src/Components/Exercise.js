@@ -6,7 +6,7 @@ import React from 'react'
             <p>Exercise: {props.exerciseName}</p>
             <p>Sets: {props.sets}</p>
             <p>Reps: {props.reps}</p>
-            <button onClick={props.deleteExercise}>Delete Exercise</button>
+            <button onClick={e => props.deleteExercise(e)}>Delete Exercise</button>
         </div>
     )
 }
