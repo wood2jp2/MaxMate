@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
  const Exercise = props => {
     return (
@@ -6,6 +6,7 @@ import React, { Component } from 'react'
             <p>Exercise: {props.exerciseName}</p>
             <p>Sets: {props.sets}</p>
             <p>Reps: {props.reps}</p>
+            <button onClick={props.deleteExercise}>Delete Exercise</button>
         </div>
     )
 }

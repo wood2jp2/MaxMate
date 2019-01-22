@@ -11,6 +11,25 @@ export default class WorkoutsPage extends Component {
         addingWorkout: false
     }
 
+    editWorkout = e => {
+        const idToEdit = Number(e.target.id)
+        this.props.history.push(`/workouts/${idToEdit}`, { workout: [...this.state.workouts[idToEdit]]})
+    }
+
+    deleteExercise = e => {
+        console.log('Exercise request to be deleted')
+    }
+
+    deleteWorkout = e => {
+        e.preventDefault()
+        const idToDelete = Number(e.target.id)
+
+        this.setState(prevState => {
+           prevState.workouts.splice(idToDelete, 1)
+           return { workouts: prevState.workouts }
+        })
+    }
+
     onSubmitWorkout = e => {
         this.setState(prevState => ({
             workouts: [...prevState.workouts, e],
@@ -39,7 +58,11 @@ export default class WorkoutsPage extends Component {
                                 <div key={index}>
                                     <h4>Workout #{index+1}: </h4>
                                     <Workout
+                                        id={index}
                                         exercises={[...workout]}
+                                        editWorkout={this.editWorkout}
+                                        deleteWorkout={this.deleteWorkout}
+                                        deleteExercise={this.deleteExercise}
                                     />
                                 </div>
                                 )

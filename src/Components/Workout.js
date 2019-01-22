@@ -4,11 +4,16 @@ import Exercise from './Exercise'
  const Workout = props => (
     <div>
         { props.exercises.map((exercise, index) => (
-            <Exercise 
-                key={index}
-                {...exercise}
-            />
+            <div key={index}>
+                <Exercise 
+                    {...exercise}
+                    deleteExercise={props.deleteExercise}
+                />
+            </div>
         )) }
+        <button id={props.id} onClick={e => props.deleteWorkout(e)}>Delete Workout</button>
+        <button id={props.id} onClick={e => props.editWorkout(e)}>Edit Workout</button>
+
     </div>
 )
 
