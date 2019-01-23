@@ -10,21 +10,16 @@ export default class AddWorkoutPage extends Component {
         exercises: []
     }
 
-    componentWillMount = () => {
-        // console.log(this.props.location.state)
-        // if (this.props.location.state.workouts !== undefined) {
-        //     this.setState(() => {
-        //         return {
-        //             exercises: [...this.props.location.state.workouts[0]]
-        //         }
-        //     })
-        // }
-    }
-
     clearInputs = ({ exerciseName, reps, sets }) => {
         exerciseName.value = ""
         reps.value = "1"
         sets.value = "1"
+    }
+
+    navigateBackToWorkoutsPage = () => {
+        this.props.history.push({pathname: '/workouts', state: {
+            exercises: [...this.state.exercises]
+        }})
     }
 
     submitExercise = e => {
@@ -90,16 +85,9 @@ export default class AddWorkoutPage extends Component {
             {this.state.formError && <p>Please provide a name for the exercise!</p>}
             { this.state.exercises.length > 0 && 
                 <div>
-                    <Link to={{
-                        pathname: '/workouts',
-                        state: {
-                            exercises: [...this.state.exercises]
-                        }
-                    }}>
-                    <button onClick={this.clearStateOnSubmit}>
+                    <button onClick={this.navigateBackToWorkoutsPage}>
                         Submit Workout
                     </button>
-                    </Link>
                 </div>
             }
             </div>

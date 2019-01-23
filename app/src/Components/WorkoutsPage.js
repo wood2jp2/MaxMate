@@ -6,19 +6,7 @@ export default class WorkoutsPage extends Component {
 
     state = {
         // This is going to need to be an array of workouts (consisting of exercises). A workout is an array of objects (exercises)
-        workouts: [],
-        addingWorkout: false
-    }
-
-    componentWillMount = () => {
-        if (!!this.props.location.state) {
-            if (!!this.props.location.state.exercises) {
-                console.log("exercise props: ", this.props.location.state.exercises)
-                this.setState(prevState => ({
-                    workouts: [...prevState.workouts, this.props.location.state.exercises]
-                }), () => console.log("state change: ", this.state.workouts))
-            }
-        }
+        workouts: [[{exerciseName: "Bench", sets: 2, reps: 10}]]
     }
 
     editWorkout = e => {
@@ -40,16 +28,8 @@ export default class WorkoutsPage extends Component {
         })
     }
 
-    onSubmitWorkout = e => {
-        this.setState(prevState => ({
-            workouts: [...prevState.workouts, e],
-            addingWorkout: false
-        }))
-    }
-
     navigateToAddWorkout = () => {
-        this.setState(() => ({ addingWorkout: true }))
-        this.props.history.push('/workouts/addWorkout')
+        this.props.history.push({pathname: '/workouts/addWorkout' })
     }
 
     render = () => (
