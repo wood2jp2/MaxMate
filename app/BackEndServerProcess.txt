@@ -1,0 +1,10 @@
+Setting up a very very simple backend server:
+    + Move the whole React app into an 'app' folder.
+    + Outside of that folder, initialize another package.json, which will cover the needs of server-side things.
+    + Add a .gitignore and ignore node_modules.
+    + npm install --save express cors
+    + Start up the server by requiring those two, and using app.get to outline routes and custom responses.
+
+Testing Route: 
+    + Create a custom backend route with an obvious message. 
+    + Install axios on the client side, and throw a request to the endpoint with the custom response, and log the response.

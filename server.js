@@ -1,7 +1,14 @@
-var express = require('express');
-var app = express();
+const express = require('express')
+const app = express()
+const cors = require('cors')
 
-app.use(express.static(__dirname + '/www'));
+const port = process.env.PORT || 8008
 
-app.listen('3000');
-console.log('working on 3000');
+app.use(express.static(__dirname + '/www'))
+app.use(cors())
+
+app.get('/', (req, res) => res.send("Hello World!"))
+
+app.get('/api/testReactCall', (req, res) => res.send("Test react call"))
+
+app.listen(port, () => console.log("Good Morning. Server listening on " + port))

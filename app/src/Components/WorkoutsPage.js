@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Workout from './Workout'
+import axios from 'axios'
 
 export default class WorkoutsPage extends Component {
 
@@ -32,9 +33,16 @@ export default class WorkoutsPage extends Component {
         this.props.history.push({pathname: '/workouts/addWorkout' })
     }
 
+    testApiCall = () => {
+        axios.get('http://localhost:8008/api/testReactCall')
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
+
     render = () => (
         <div>
             <h2>Workouts</h2>
+            <button onClick={this.testApiCall}>Test API Call</button>
                 <div>             
                     <Link to="/workouts/past"><h4>Past Workouts</h4></Link>
                     <h4>Today's Workout</h4>

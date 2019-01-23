@@ -35,6 +35,8 @@ const baseConfig = {
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'public'),
+    stats: 'errors-only',
+    index: '', // specify to enable root proxying
     historyApiFallback: true
   }
 }

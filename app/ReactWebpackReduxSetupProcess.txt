@@ -154,3 +154,5 @@ Redux: A Global State Container
         })
             + give it a default state value in the function so that it has something if not given anything at all
         - store.getState()
+
+________________________________________________________________________________________________
