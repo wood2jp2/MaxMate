@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
-import { Form, Text } from 'react-form'
 import Exercise from './Exercise'
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { addWorkout } from '../Actions/workouts'
+import WorkoutsForm from './WorkoutsForm'
 
-export default class AddWorkoutPage extends Component {
+class AddWorkoutPage extends Component {
     state = {
         formError: false,
         // Exercises is an array of objects
-        exercises: []
+        exercises: 
+            this.props.workouts
+                .filter(workout => {
+                    return workout.id === this.props.match.params.id
+                }) || []
     }
 
     clearInputs = ({ exerciseName, reps, sets }) => {
@@ -16,10 +21,9 @@ export default class AddWorkoutPage extends Component {
         sets.value = "1"
     }
 
-    navigateBackToWorkoutsPage = () => {
-        this.props.history.push({pathname: '/workouts', state: {
-            exercises: [...this.state.exercises]
-        }})
+    onSubmitWorkout = () => {
+        this.props.addWorkout({exercises: [...this.state.exercises]})
+        this.props.history.push('/workouts')
     }
 
     submitExercise = e => {
@@ -47,50 +51,30 @@ export default class AddWorkoutPage extends Component {
         }
     }
 
-    clearStateOnSubmit = () => {
-        this.setState(() => ({
-            exercises: []
-        }))
-    }
-
     render = () => (
         <div>
             { this.state.exercises.length > 0 ? 
-                this.state.exercises.map(
-                    ({ exerciseName, sets, reps }, index) => 
-                        <Exercise 
-                            key={index}
-                            exerciseName={exerciseName} 
-                            sets={sets} 
-                            reps={reps}
-                        />)
+                this.state.exercises.map((exercise, index) => (
+                    <div key={index}>
+                        <Exercise {...exercise}/>
+                    </div>
+                ))
                 :
                 <p>There are no exercises added to this workout yet!</p>
             }
 
             <h3>Add Workout Form</h3>
-            <Form>
-                { formApi => (
-                    <form onSubmit={this.submitExercise} id="addWorkoutForm">
-                        <label htmlFor="exercise">Exercise: </label>
-                        <Text field="exercise" id="exerciseName" validate={this.validateForm} placeholder="ex. Bench" />
-                        <label htmlFor="sets">Sets: </label>
-                        <input type="number" defaultValue="1" min="1" max="20" field="sets" id="sets" />
-                        <label htmlFor="reps">Reps: </label>
-                        <input type="number" defaultValue="1" min="1" max="20" field="reps" id="reps" />
-                        <button type="submit">Add Exercise to Workout</button>
-                    </form>
-                )}
-            </Form>
-            {this.state.formError && <p>Please provide a name for the exercise!</p>}
-            { this.state.exercises.length > 0 && 
-                <div>
-                    <button onClick={this.navigateBackToWorkoutsPage}>
-                        Submit Workout
-                    </button>
-                </div>
-            }
-            </div>
+            <WorkoutsForm onSubmitWorkout={this.onSubmitWorkout} exercises={this.state.exercises} formError={this.state.formError} submitExercise={this.submitExercise}/>
+        </div>
     )
-    
 }
+
+const mapStateToProps = store => ({
+    workouts: store.workouts
+}) 
+
+const mapDispatchToProps = dispatch => ({
+    addWorkout: workout => ( dispatch(addWorkout(workout)) )
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddWorkoutPage)

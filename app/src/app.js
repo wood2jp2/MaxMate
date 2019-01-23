@@ -1,15 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
 import AppRouter from './Router/Router'
+import configureStore from './Store/configureStore'
+
+const store = configureStore()
+
+store.subscribe(() => {
+    const state = store.getState()
+    const { workouts } = state
+
+    console.log(workouts)
+})
+
+const root = document.getElementById('root')
 
 const App = () => 
     (
-        <div>
+        <Provider store={store}>
             <AppRouter />
-        </div>
+        </Provider>
     )
 
-const root = document.getElementById('root')
 
 ReactDOM.render(<App />, root)

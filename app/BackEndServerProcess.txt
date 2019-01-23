@@ -8,3 +8,6 @@ Setting up a very very simple backend server:
 Testing Route: 
     + Create a custom backend route with an obvious message. 
     + Install axios on the client side, and throw a request to the endpoint with the custom response, and log the response.
+
+Proxying back end: 
+    + Adding a proxy string to the package.json on the client-side ONLY works with fetch.

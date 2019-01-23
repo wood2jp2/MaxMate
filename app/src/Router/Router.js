@@ -7,7 +7,7 @@ import PageNotFound from '../Components/PageNotFound'
 import WorkoutsPage from '../Components/WorkoutsPage'
 import DietPage from '../Components/DietPage'
 import AddWorkoutPage from '../Components/AddWorkoutPage'
-import Counter from '../Components/Counter'
+import EditWorkoutPage from '../Components/EditWorkoutPage'
 
 const AppRouter = () => (
     <div>
@@ -18,7 +18,7 @@ const AppRouter = () => (
                     <Route path='/diet' component={DietPage} />
                     <Route path="/workouts/addWorkout" component={AddWorkoutPage} />
                     <Route exact path="/workouts" render={props => <WorkoutsPage {...props} />} />
-                    <Route path="/counter" component={Counter} />
+                    <Route path="/workouts/editWorkout/:id" component={EditWorkoutPage} />
                     <Route path="/" component={HomePage} />
 
                     <Route component={PageNotFound} />

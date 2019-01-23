@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "npm test",
-    "start": "webpack-dev-server",
+    "start": "cd app && node app.js",
     "watch": "babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch",
     "serve": "live-server public",
     "build": "webpack --watch",
-    "dev-server": ""
+    "dev-server": "webpack-dev-server"
   },
   "author": "JPW",
   "license": "ISC",
@@ -26,8 +26,10 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-form": "^3.5.6",
+    "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
     "uuid": "^3.3.2",
     "webpack": "^4.28.4",
     "webpack-dev-server": "^3.1.14"
