@@ -11,7 +11,7 @@ store.subscribe(() => {
     const state = store.getState()
     const { workouts } = state
 
-    console.log(workouts)
+    console.log("WORKOUTS STATE: ", workouts)
 })
 
 const root = document.getElementById('root')

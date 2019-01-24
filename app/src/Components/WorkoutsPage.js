@@ -9,18 +9,6 @@ class WorkoutsPage extends Component {
         workouts: this.props.workouts || []
     }
 
-    componentWillMount = () => console.log(this.props.workouts)
-
-    deleteWorkout = e => {
-        e.preventDefault()
-        const idToDelete = Number(e.target.id)
-
-        this.setState(prevState => {
-           prevState.workouts.splice(idToDelete, 1)
-           return { workouts: prevState.workouts }
-        })
-    }
-
     navigateToAddWorkout = () => this.props.history.push('/workouts/addWorkout')
 
     render = () => (
