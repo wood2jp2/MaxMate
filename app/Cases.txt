@@ -1,0 +1,27 @@
+Method:
+
+ADD WORKOUT: 
+    1. Add a brand new workout.
+        + Complete.
+        
+DELETE WORKOUT:
+    1. Fully submit one workout. Go into Edit, and discard the workout.
+        - Complete.
+    2. Fully submit two workouts. Go into Edit, and discard a workout.
+        - Complete.
+
+    EDGE CASE: Fully submit a workout consisting of one exercise. Go in, and attempt to delete the workout by deleting the  one exercise.
+        - Current result: State clears, but workout is NOT removed from Redux state, so when user is navigated back to workouts page, the workout is still there.
+
+DELETE EXERCISE: 
+    1. Add an exercise to a blank/new workout. Delete the exercise. 
+        - Complete.
+    2. Edit a workout and attempt to remove one of multiple exercises. Resubmit the revised workout.
+        - Complete.
+
+EDIT WORKOUT: 
+    1. Edit a workout and attempt to remove one of multiple exercises. Resubmit the revised workout.
+        - Complete.
+    2. Edit an existing workout and attempt to add another exercise. Resubmit the revised workout.
+        - Complete.
+

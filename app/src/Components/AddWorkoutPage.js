@@ -1,21 +1,24 @@
 import React, { Component } from 'react'
 import Exercise from './Exercise'
 import { connect } from 'react-redux'
-import { addWorkout, removeWorkout } from '../Actions/workouts'
+import { addWorkout, removeWorkout, editWorkout } from '../Actions/workouts'
 import WorkoutsForm from './WorkoutsForm'
 
 class AddWorkoutPage extends Component {
     state = {
         formError: false,
         // Exercises is an array of objects
-        exercises: []
+        exercises: [],
+        id: null
     }
 
     componentWillMount = () => {
-        if (!!this.props.match.params.id) {
-            const workoutExercisesToEdit = this.props.workouts.filter(workout => workout.id === this.props.match.params.id)[0].exercises
+        const routeIdParam = this.props.match.params.id
+        if (!!routeIdParam) {
+            const workoutExercisesToEdit = this.props.workouts.filter(workout => workout.id === routeIdParam)[0].exercises
             this.setState(() => ({
-                exercises: workoutExercisesToEdit
+                exercises: workoutExercisesToEdit,
+                id: routeIdParam
             }))
         }
     }
@@ -28,12 +31,27 @@ class AddWorkoutPage extends Component {
 
     onSubmitWorkout = () => {
         // addWorkout action is added to the props of this component. We can access it and pass in the correct params by just accessing props.
-        this.props.addWorkout({exercises: [...this.state.exercises]})
+        if (this.state.id === null) {
+            this.props.addWorkout({exercises: [...this.state.exercises]})
+        }
+        else {
+            this.props.editWorkout({id: this.state.id, exercises: [...this.state.exercises]})
+        }
         this.props.history.push('/workouts')
+
     }
 
-    editExercise = () => {
-        console.log('Request to edit exercise')
+    deleteExercise = e => {
+        e.preventDefault()
+        const exerciseIndexToDelete = Number(e.target.id)
+
+        console.log('request to edit exercise: ', exerciseIndexToDelete)
+        this.setState(prevState => ({
+            exercises: prevState.exercises.filter((exercise, index) => index !== exerciseIndexToDelete)
+        }), () => console.log(this.state.exercises))
+
+        // I want to take the exercise being clicked on, temporarily remove it from state, and force the values into the editable fields below. From there, the user can edit the values, and resubmit the form and exercise to the state of this component.
+
     }
 
     deleteWorkout = () => {
@@ -76,7 +94,7 @@ class AddWorkoutPage extends Component {
                 this.state.exercises.map((exercise, index) => (
                     <div key={index}>
                         <Exercise {...exercise}/>
-                        <button onClick={this.editExercise}>Edit Exercise</button>
+                        <button id={index} onClick={e => this.deleteExercise(e)}>Delete Exercise</button>
                     </div>
                 ))
                 
@@ -96,8 +114,8 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     addWorkout: workout => ( dispatch(addWorkout(workout)) ),
-    removeWorkout: workout => ( dispatch(removeWorkout(workout)) )
-
+    removeWorkout: workout => ( dispatch(removeWorkout(workout)) ),
+    editWorkout: workout => ( dispatch(editWorkout(workout)) )
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddWorkoutPage)

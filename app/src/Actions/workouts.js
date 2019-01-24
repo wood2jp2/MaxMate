@@ -14,3 +14,9 @@ export const removeWorkout = ({id} = {}) => ({
     type: "REMOVE_WORKOUT",
     id
 })
+
+export const editWorkout=({ id, exercises }) => ({
+    type: "EDIT_WORKOUT",
+    id,
+    exercises
+})
