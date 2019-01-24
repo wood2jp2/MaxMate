@@ -1,10 +1,10 @@
 import React from 'react'
-import AddWorkoutPage from './AddWorkoutPage';
+import WorkoutPage from './WorkoutPage';
 
 const EditWorkoutPage = props => (
     <div>
         <h3>Edit Workout</h3>
-        <AddWorkoutPage {...props}/>
+        <WorkoutPage {...props}/>
     </div>
 )
 

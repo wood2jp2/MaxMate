@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Workout from './Workout'
 import { connect } from 'react-redux'
 
-class WorkoutsPage extends Component {
+class WorkoutsHomePage extends Component {
 
     state = {
         // This is going to need to be an array of workouts (consisting of exercises). A workout is an array of objects (exercises)
@@ -41,4 +41,4 @@ const mapStateToProps = store => ({
     workouts: store.workouts
 }) 
 
-export default connect(mapStateToProps)(WorkoutsPage)
+export default connect(mapStateToProps)(WorkoutsHomePage)

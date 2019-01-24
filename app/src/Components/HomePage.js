@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
- const HomePage = () => (
-    <div>
-        <p>This is the home page</p>
-    </div>
-)
+class HomePage extends Component {
 
-export default HomePage
+    componentWillMount = () => {
+        console.log(this.props.workouts)
+    }
+    
+    render = () => (
+        <div>
+            <p>This is the home page</p>
+        </div>
+    )
+}
+
+                
+const mapStateToProps = store => ({
+    workouts: store.workouts
+}) 
+
+export default connect(mapStateToProps)(HomePage)

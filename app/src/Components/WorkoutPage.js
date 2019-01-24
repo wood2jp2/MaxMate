@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { addWorkout, removeWorkout, editWorkout } from '../Actions/workouts'
 import WorkoutsForm from './WorkoutsForm'
 
-class AddWorkoutPage extends Component {
+class WorkoutPage extends Component {
     state = {
         formError: false,
         // Exercises is an array of objects
@@ -13,9 +13,11 @@ class AddWorkoutPage extends Component {
     }
 
     componentWillMount = () => {
+        console.log("MOUNTING COMPONENT")
+        console.log("this.props: ", this.props)
         const routeIdParam = this.props.match.params.id
         if (!!routeIdParam) {
-            const workoutExercisesToEdit = this.props.workouts.filter(workout => workout.id === routeIdParam)[0].exercises
+            const workoutExercisesToEdit = [...this.props.workouts].filter(workout => workout.id === routeIdParam)[0].exercises
             this.setState(() => ({
                 exercises: workoutExercisesToEdit,
                 id: routeIdParam
@@ -40,14 +42,27 @@ class AddWorkoutPage extends Component {
         this.props.history.push('/workouts')
     }
 
-    editExercise = e => {
-        // I want to take the exercise being clicked on, temporarily remove it from state, and force the values into the editable fields below. From there, the user can edit the values, and resubmit the form and exercise to the state of this component.
+    // Redux understands that an exercise on a new and not submitted workout is not reflected in the state. It also understands that editing an exercise in an un-submitted workout should not be reflected in the redux state.
 
-        const exerciseIndexToEdit = Number(e.target.id)
-        const exerciseToEdit = this.state.exercises[exerciseIndexToEdit]
+    // It does NOT understand that editing an existing workout's exercise should NOT reflect in the redux state until the revised workout and exercise(s) is re-submitted, going through the action / reducer again. 
 
-        console.log('request to edit exercise: ', exerciseToEdit)
+    // It is updating the redux state AND component state immediately on change of the exercise edit, but no where below in the function do I set the state of the component or do I call any of the dispatched functions.
 
+    // Is this a feature of redux? Do connect components somehow immediately reflect change on the fields it's connected to? Even so, I'm making clones of state. How is it changing immediately?
+
+    editExercise = (_event, value, id, field) => {
+        console.log("REDUX STATE BEFORE: ", this.props.workouts)
+        const exerciseToEdit = [...this.state.exercises][id]
+        const filteredState = [...this.state.exercises].filter((_, index) => index !== id)
+        exerciseToEdit.something = 'something'
+        if (isNaN(Number(value))) {
+            exerciseToEdit[field] = value
+        }
+        else {
+            exerciseToEdit[field] = Number(value)
+        }
+        filteredState.splice(id, 0, exerciseToEdit)
+        console.log("WorkoutPage Component State: ", this.state.exercises)
     }
 
     deleteExercise = e => {
@@ -79,12 +94,12 @@ class AddWorkoutPage extends Component {
     submitExercise = e => {
         // We don't need to track submitting exercises to the redux state. We can simply wait and add a full workout instead.
         e.preventDefault()
-
+        console.log("SUBMIT EXERCISE")
         const { exerciseName, sets, reps } = e.target
         
         if (!exerciseName.value) {
             this.setState(() => ({ formError: true }))
-        } 
+        }
         
         else {
             const exercise = {
@@ -109,19 +124,22 @@ class AddWorkoutPage extends Component {
                 
                 this.state.exercises.map((exercise, index) => (
                     <div key={index}>
-                        <Exercise {...exercise} exercisesEditable={true}/>
-                        <button id={index} onClick={e => this.editExercise(e)}>Edit Exercise</button>
+                        <Exercise 
+                            {...exercise} 
+                            exercisesEditable={true} 
+                            id={index}
+                            onChange={(event, value, id, field) => this.editExercise(event, value, id, field)} 
+                            />
+
                         <button id={index} onClick={e => this.deleteExercise(e)}>Delete Exercise</button>
                     </div>
                 ))
-                
                 :
                 <p>There are no exercises added to this workout yet!</p>
             }
 
             <h3>Add exercises to workout!</h3>
             <WorkoutsForm 
-                {...this.props}
                 onSubmitWorkout={this.onSubmitWorkout} 
                 exercises={this.state.exercises} 
                 formError={this.state.formError} 
@@ -140,4 +158,4 @@ const mapDispatchToProps = dispatch => ({
     editWorkout: workout => ( dispatch(editWorkout(workout)) )
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddWorkoutPage)
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutPage)
