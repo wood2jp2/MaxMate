@@ -14,7 +14,6 @@ import { NavLink } from 'react-router-dom'
             <NavLink to='/exercises' activeStyle={activeStyle}>Exercises</NavLink>
             <NavLink to='/workouts' activeStyle={activeStyle}>Workouts</NavLink>
             <NavLink to='/diet' activeStyle={activeStyle}>Diet</NavLink>
-            <NavLink to='/counter' activeStyle={activeStyle}>Counter</NavLink>
         </div>
     </div>
 )

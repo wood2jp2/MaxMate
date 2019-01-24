@@ -30,32 +30,48 @@ class AddWorkoutPage extends Component {
     }
 
     onSubmitWorkout = () => {
-        // addWorkout action is added to the props of this component. We can access it and pass in the correct params by just accessing props.
+        // addWorkout action is added to the props of this component thanks to redux. We can access it and pass in the correct params by just accessing props.
         if (this.state.id === null) {
             this.props.addWorkout({exercises: [...this.state.exercises]})
         }
         else {
-            this.props.editWorkout({id: this.state.id, exercises: [...this.state.exercises]})
+            this.editWorkout()
         }
         this.props.history.push('/workouts')
+    }
+
+    editExercise = e => {
+        // I want to take the exercise being clicked on, temporarily remove it from state, and force the values into the editable fields below. From there, the user can edit the values, and resubmit the form and exercise to the state of this component.
+
+        const exerciseIndexToEdit = Number(e.target.id)
+        const exerciseToEdit = this.state.exercises[exerciseIndexToEdit]
+
+        console.log('request to edit exercise: ', exerciseToEdit)
 
     }
 
     deleteExercise = e => {
         e.preventDefault()
+        
         const exerciseIndexToDelete = Number(e.target.id)
 
-        console.log('request to edit exercise: ', exerciseIndexToDelete)
+        console.log('request to delete exercise: ', exerciseIndexToDelete)
+        
         this.setState(prevState => ({
-            exercises: prevState.exercises.filter((exercise, index) => index !== exerciseIndexToDelete)
-        }), () => console.log(this.state.exercises))
+            exercises: prevState.exercises.filter((_, index) => index !== exerciseIndexToDelete)
+        }), () => {
+            if (this.state.exercises.length === 0) {
+                this.deleteWorkout()
+            }
+        })
+    }
 
-        // I want to take the exercise being clicked on, temporarily remove it from state, and force the values into the editable fields below. From there, the user can edit the values, and resubmit the form and exercise to the state of this component.
-
+    editWorkout = () => {
+        this.props.editWorkout({id: this.state.id, exercises: [...this.state.exercises]})
     }
 
     deleteWorkout = () => {
-        console.log('request to delete exercise')
+        console.log('request to delete workout')
         this.props.removeWorkout({id: this.props.match.params.id})
         this.props.history.push('/workouts')
     }
@@ -93,7 +109,8 @@ class AddWorkoutPage extends Component {
                 
                 this.state.exercises.map((exercise, index) => (
                     <div key={index}>
-                        <Exercise {...exercise}/>
+                        <Exercise {...exercise} exercisesEditable={true}/>
+                        <button id={index} onClick={e => this.editExercise(e)}>Edit Exercise</button>
                         <button id={index} onClick={e => this.deleteExercise(e)}>Delete Exercise</button>
                     </div>
                 ))
@@ -103,7 +120,12 @@ class AddWorkoutPage extends Component {
             }
 
             <h3>Add exercises to workout!</h3>
-            <WorkoutsForm onSubmitWorkout={this.onSubmitWorkout} exercises={this.state.exercises} formError={this.state.formError} submitExercise={this.submitExercise}/>
+            <WorkoutsForm 
+                {...this.props}
+                onSubmitWorkout={this.onSubmitWorkout} 
+                exercises={this.state.exercises} 
+                formError={this.state.formError} 
+                submitExercise={this.submitExercise}/>
         </div>
     )
 }
