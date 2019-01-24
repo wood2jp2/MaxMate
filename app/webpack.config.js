@@ -36,6 +36,8 @@ const baseConfig = {
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     stats: 'errors-only',
+    openPage: 'workouts', // page that the app automatically navigates to upon opening.
+    open: true, // automatic window open to local host when webpack-dev-server starts up.
     index: '', // specify to enable root proxying
     historyApiFallback: true
   }

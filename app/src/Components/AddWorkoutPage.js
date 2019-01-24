@@ -8,11 +8,16 @@ class AddWorkoutPage extends Component {
     state = {
         formError: false,
         // Exercises is an array of objects
-        exercises: 
-            this.props.workouts
-                .filter(workout => {
-                    return workout.id === this.props.match.params.id
-                }) || []
+        exercises: []
+    }
+
+    componentWillMount = () => {
+        if (!!this.props.match.params.id) {
+            const workoutExercisesToEdit = this.props.workouts.filter(workout => workout.id === this.props.match.params.id)[0].exercises
+            this.setState(() => ({
+                exercises: workoutExercisesToEdit
+            }))
+        }
     }
 
     clearInputs = ({ exerciseName, reps, sets }) => {

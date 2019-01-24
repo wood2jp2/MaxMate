@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import AddWorkoutPage from './AddWorkoutPage';
 
 const EditWorkoutPage = props => (
