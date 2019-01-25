@@ -16,12 +16,11 @@ store.subscribe(() => {
 
 const root = document.getElementById('root')
 
-const App = () => 
-    (
-        <Provider store={store}>
-            <AppRouter />
-        </Provider>
-    )
+const App = (
+    <Provider store={store}>
+        <AppRouter />
+    </Provider>
+)
 
 
-ReactDOM.render(<App />, root)
+ReactDOM.render(App, root)

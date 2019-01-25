@@ -13,8 +13,6 @@ class WorkoutPage extends Component {
     }
 
     componentWillMount = () => {
-        console.log("MOUNTING COMPONENT")
-        console.log("this.props: ", this.props)
         const routeIdParam = this.props.match.params.id
         if (!!routeIdParam) {
             const workoutExercisesToEdit = [...this.props.workouts].filter(workout => workout.id === routeIdParam)[0].exercises
@@ -49,20 +47,26 @@ class WorkoutPage extends Component {
     // It is updating the redux state AND component state immediately on change of the exercise edit, but no where below in the function do I set the state of the component or do I call any of the dispatched functions.
 
     // Is this a feature of redux? Do connect components somehow immediately reflect change on the fields it's connected to? Even so, I'm making clones of state. How is it changing immediately?
-
     editExercise = (_event, value, id, field) => {
-        console.log("REDUX STATE BEFORE: ", this.props.workouts)
+
         const exerciseToEdit = [...this.state.exercises][id]
         const filteredState = [...this.state.exercises].filter((_, index) => index !== id)
-        exerciseToEdit.something = 'something'
+        const cloneExercise = Object.assign({}, exerciseToEdit)
+
         if (isNaN(Number(value))) {
-            exerciseToEdit[field] = value
+            cloneExercise[field] = value
+        } else {
+            cloneExercise[field] = Number(value)
         }
-        else {
-            exerciseToEdit[field] = Number(value)
-        }
-        filteredState.splice(id, 0, exerciseToEdit)
-        console.log("WorkoutPage Component State: ", this.state.exercises)
+        
+        filteredState.splice(id, 0, cloneExercise)
+
+        this.setState(() => ({ 
+            exercises: filteredState 
+        }), () => {
+            console.log("WorkoutPage Component State: ", this.state.exercises)
+            console.log("REDUX STATE After: ", this.props.workouts)
+        })
     }
 
     deleteExercise = e => {

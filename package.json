@@ -22,5 +22,8 @@
     "express": "^4.16.4",
     "mongoose": "^5.4.6",
     "react-contenteditable": "^3.2.6"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.1"
   }
 }
