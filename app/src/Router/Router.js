@@ -4,10 +4,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Header from '../Components/Header'
 import HomePage from '../Components/HomePage'
 import PageNotFound from '../Components/PageNotFound'
-import WorkoutsHomePage from '../Components/WorkoutsHomePage'
-import DietPage from '../Components/DietPage'
-import WorkoutPage from '../Components/WorkoutPage'
-import EditWorkoutPage from '../Components/EditWorkoutPage'
+import WorkoutsHomePage from '../Components/Workouts/WorkoutsHomePage'
+import DietPage from '../Components/Diet/DietPage'
+import WorkoutPage from '../Components/Workouts/WorkoutPage'
+import EditWorkoutPage from '../Components/Workouts/EditWorkoutPage'
 
 const AppRouter = () => (
     <div>

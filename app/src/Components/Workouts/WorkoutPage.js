@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Exercise from './Exercise'
 import { connect } from 'react-redux'
-import { addWorkout, removeWorkout, editWorkout } from '../Actions/workouts'
+import { addWorkout, removeWorkout, editWorkout } from '../../Actions/workouts'
 import WorkoutsForm from './WorkoutsForm'
 
 class WorkoutPage extends Component {
@@ -51,15 +51,15 @@ class WorkoutPage extends Component {
 
         const exerciseToEdit = [...this.state.exercises][id]
         const filteredState = [...this.state.exercises].filter((_, index) => index !== id)
-        const cloneExercise = Object.assign({}, exerciseToEdit)
+        const clonedExercise = Object.assign({}, exerciseToEdit)
 
         if (isNaN(Number(value))) {
-            cloneExercise[field] = value
+            clonedExercise[field] = value
         } else {
-            cloneExercise[field] = Number(value)
+            clonedExercise[field] = Number(value)
         }
         
-        filteredState.splice(id, 0, cloneExercise)
+        filteredState.splice(id, 0, clonedExercise)
 
         this.setState(() => ({ 
             exercises: filteredState 
