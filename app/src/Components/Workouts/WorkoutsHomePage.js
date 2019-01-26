@@ -1,26 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Workout from './Workout'
 import { connect } from 'react-redux'
 import moment from 'moment'
 
-class WorkoutsHomePage extends Component {
-
-    state = {
-        // This is going to need to be an array of workouts (consisting of exercises). A workout is an array of objects (exercises)
-        workouts: this.props.workouts || []
-    }
-
-    navigateToAddWorkout = () => this.props.history.push('/workouts/addWorkout')
-
-    render = () => (
+const WorkoutsHomePage = props => (
         <div>
             <h2>Workouts</h2>
                 <div>             
                     <h4>Today's Workout</h4>
-                    <button onClick={this.navigateToAddWorkout}>Add Workout</button>
+                    <button onClick={() => {
+                        props.history.push('/workouts/addWorkout')
+                    }}>Add Workout</button>
                     {
-                        this.state.workouts.length > 0 ?
-                        this.state.workouts.map((workout, index) => (
+                        props.workouts.length > 0 ?
+                        props.workouts.map((workout, index) => (
                             <div key={index}>
                                 <Workout
                                     id={workout.id}
@@ -38,7 +31,7 @@ class WorkoutsHomePage extends Component {
                 </div>
         </div>
     )
-}
+
 
 const mapStateToProps = store => ({
     workouts: store.workouts

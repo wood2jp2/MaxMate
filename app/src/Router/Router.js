@@ -4,8 +4,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Header from '../Components/Header'
 import HomePage from '../Components/HomePage'
 import PageNotFound from '../Components/PageNotFound'
-import WorkoutsHomePage from '../Components/Workouts/WorkoutsHomePage'
 import DietPage from '../Components/Diet/DietPage'
+import BuildMealPage from '../Components/Diet/BuildMealPage'
+
+import WorkoutsHomePage from '../Components/Workouts/WorkoutsHomePage'
 import WorkoutPage from '../Components/Workouts/WorkoutPage'
 import EditWorkoutPage from '../Components/Workouts/EditWorkoutPage'
 
@@ -16,6 +18,7 @@ const AppRouter = () => (
                 <Header />
                 <Switch>
                     <Route path='/diet' component={DietPage} />
+                    <Route path='diet/buildMeal' component={BuildMealPage} />
                     <Route path="/workouts/addWorkout" component={WorkoutPage} />
                     <Route exact path="/workouts" render={props => <WorkoutsHomePage {...props} />} />
                     <Route path="/workouts/editWorkout/:id" component={EditWorkoutPage} />

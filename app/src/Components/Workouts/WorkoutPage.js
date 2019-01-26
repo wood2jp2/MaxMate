@@ -181,7 +181,6 @@ class WorkoutPage extends Component {
                 onDateChange={this.onDateChange}
                 onDateFocusChange={this.onDateFocusChange}
             />
-                
         </div>
     )
 }
