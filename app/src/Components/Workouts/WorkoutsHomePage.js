@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Workout from './Workout'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 class WorkoutsHomePage extends Component {
 
@@ -24,6 +25,8 @@ class WorkoutsHomePage extends Component {
                                 <Workout
                                     id={workout.id}
                                     index={index+1}
+                                    scheduledFor={moment(workout.scheduledFor._d).format("MMM Do YYYY")}
+                                    createdAt={workout.createdAt}
                                     exercises={[...workout.exercises]}
                                 />
                             </div>

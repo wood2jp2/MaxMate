@@ -1,12 +1,12 @@
 import uuid from 'uuid'
 
-export const addWorkout = ({ exercises = [], scheduledFor = 0, createdAt = 0}) => ({
+export const addWorkout = ({ exercises = [], createdAt, scheduledFor = 0 }) => ({
     type: "ADD_WORKOUT",
     workout: {
         id: uuid(),
         exercises,
-        scheduledFor, 
-        createdAt
+        createdAt,
+        scheduledFor
     }
 })
 
@@ -15,8 +15,9 @@ export const removeWorkout = ({id} = {}) => ({
     id
 })
 
-export const editWorkout=({ id, exercises }) => ({
+export const editWorkout=({ id, exercises, scheduledFor }) => ({
     type: "EDIT_WORKOUT",
     id,
-    exercises
+    exercises,
+    scheduledFor
 })

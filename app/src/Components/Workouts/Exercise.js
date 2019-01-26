@@ -33,7 +33,6 @@ import ContentEditable from 'react-sane-contenteditable'
                 onChange={(e, value) => props.onChange(e, value, props.id, "reps")}
             />
         </div>
-
     </div>
 )
 

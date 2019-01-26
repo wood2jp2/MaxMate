@@ -3,21 +3,27 @@ import Exercise from './Exercise'
 import { connect } from 'react-redux'
 import { addWorkout, removeWorkout, editWorkout } from '../../Actions/workouts'
 import WorkoutsForm from './WorkoutsForm'
+import moment from 'moment'
 
 class WorkoutPage extends Component {
     state = {
         formError: false,
         // Exercises is an array of objects
         exercises: [],
+        scheduledFor: moment(),
+        datepickerFocused: false,
         id: null
     }
 
     componentWillMount = () => {
         const routeIdParam = this.props.match.params.id
+
         if (!!routeIdParam) {
-            const workoutExercisesToEdit = [...this.props.workouts].filter(workout => workout.id === routeIdParam)[0].exercises
+            const workoutToEdit = [...this.props.workouts].filter(workout => workout.id === routeIdParam)[0]
+
             this.setState(() => ({
-                exercises: workoutExercisesToEdit,
+                exercises: workoutToEdit.exercises,
+                scheduledFor: workoutToEdit.scheduledFor,
                 id: routeIdParam
             }))
         }
@@ -29,14 +35,31 @@ class WorkoutPage extends Component {
         sets.value = "1"
     }
 
+    onDateChange = ({_d: date}) => {
+        this.setState(() => ({
+            scheduledFor: moment(date)
+        }), () => console.log("SCHEDULED FOR DATE STATE: ", this.state.scheduledFor))
+    }
+
+    onDateFocusChange = ({ focused }) => {
+        this.setState(() => ({
+            datepickerFocused: focused
+        }), () => console.log("FOCUS CHANGE: ", this.state.datepickerFocused))
+    }
+
     onSubmitWorkout = () => {
         // addWorkout action is added to the props of this component thanks to redux. We can access it and pass in the correct params by just accessing props.
         if (this.state.id === null) {
-            this.props.addWorkout({exercises: [...this.state.exercises]})
+            this.props.addWorkout({
+                exercises: [...this.state.exercises], 
+                scheduledFor: this.state.scheduledFor,
+                createdAt: moment().format("MMM Do YYYY")
+            })
         }
         else {
             this.editWorkout()
         }
+
         this.props.history.push('/workouts')
     }
 
@@ -86,7 +109,12 @@ class WorkoutPage extends Component {
     }
 
     editWorkout = () => {
-        this.props.editWorkout({id: this.state.id, exercises: [...this.state.exercises]})
+        console.log("SCHEDULED FOR EDIT: ", this.state.scheduledFor)
+        this.props.editWorkout({
+            id: this.state.id, 
+            exercises: [...this.state.exercises], 
+            scheduledFor: this.state.scheduledFor
+        })
     }
 
     deleteWorkout = () => {
@@ -98,7 +126,7 @@ class WorkoutPage extends Component {
     submitExercise = e => {
         // We don't need to track submitting exercises to the redux state. We can simply wait and add a full workout instead.
         e.preventDefault()
-        console.log("SUBMIT EXERCISE")
+
         const { exerciseName, sets, reps } = e.target
         
         if (!exerciseName.value) {
@@ -147,7 +175,13 @@ class WorkoutPage extends Component {
                 onSubmitWorkout={this.onSubmitWorkout} 
                 exercises={this.state.exercises} 
                 formError={this.state.formError} 
-                submitExercise={this.submitExercise}/>
+                submitExercise={this.submitExercise}
+                scheduledFor={this.state.scheduledFor}
+                datepickerFocused={this.state.datepickerFocused}
+                onDateChange={this.onDateChange}
+                onDateFocusChange={this.onDateFocusChange}
+            />
+                
         </div>
     )
 }

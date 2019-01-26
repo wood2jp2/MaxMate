@@ -13,6 +13,8 @@ export default (state = workoutsReducerDefaultState, action) => {
             const workoutToEdit = [...state].filter(workout => workout.id === action.id)[0]
             const revisedState = [...state].filter(workout => workout.id !== action.id)
             workoutToEdit.exercises = action.exercises
+            workoutToEdit.scheduledFor = action.scheduledFor
+            
             return [...revisedState, workoutToEdit]
         default:
             return state
