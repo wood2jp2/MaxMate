@@ -11,6 +11,7 @@ import { NavLink } from 'react-router-dom'
         <h1>MaxMate</h1>
         <div>
             <NavLink exact to='/' activeStyle={activeStyle}>Home</NavLink>
+            <NavLink to='/register' activeStyle={activeStyle}>Register</NavLink>
             <NavLink to='/exercises' activeStyle={activeStyle}>Exercises</NavLink>
             <NavLink to='/workouts' activeStyle={activeStyle}>Workouts</NavLink>
             <NavLink to='/diet' activeStyle={activeStyle}>Diet</NavLink>

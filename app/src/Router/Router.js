@@ -10,6 +10,7 @@ import BuildMealPage from '../Components/Diet/BuildMealPage'
 import WorkoutsHomePage from '../Components/Workouts/WorkoutsHomePage'
 import WorkoutPage from '../Components/Workouts/WorkoutPage'
 import EditWorkoutPage from '../Components/Workouts/EditWorkoutPage'
+import Register from '../Components/Register'
 
 const AppRouter = () => (
     <div>
@@ -17,6 +18,7 @@ const AppRouter = () => (
             <div>
                 <Header />
                 <Switch>
+                    <Route path='/register' component={Register} />
                     <Route path='/diet/logMeal' component={BuildMealPage} />
                     <Route exact path='/diet' component={DietPage} />
                     <Route path="/workouts/addWorkout" component={WorkoutPage} />
