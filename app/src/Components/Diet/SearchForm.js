@@ -4,7 +4,7 @@ import { Form, Text, Select } from 'react-form'
 
 export default class SearchForm extends Component {
     state = {
-
+        results: null
     }
 
     dropdownOptions = [
@@ -20,10 +20,10 @@ export default class SearchForm extends Component {
 
     submitSearchForm = e => {
         e.preventDefault()
+        
         const searchValue = e.target.foodSearch.value
         const searchByIndexValue = e.target.searchBy.value - 1
         const searchByValue = this.dropdownOptions[searchByIndexValue]
-        console.log()
 
         axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${searchValue}`, {
             headers: {
@@ -31,8 +31,18 @@ export default class SearchForm extends Component {
                 "x-app-key":"258964f98d7d4b63733ba12454ca35f3"
             }
         })
-        .then(response => console.log(response.data[searchByValue.value]))
+        .then(response => 
+            this.setState(() => 
+                ({
+                    results: response.data[searchByValue.value]
+                })
+            )
+        )
         .catch(err => console.log(err))
+    }
+
+    componentDidUpdate = () => {
+        console.log('COMPONENT DID UPDATE')
     }
 
     render = () => (
