@@ -17,7 +17,7 @@ const AppRouter = () => (
             <div>
                 <Header />
                 <Switch>
-                    <Route path='/diet/buildMeal' component={BuildMealPage} />
+                    <Route path='/diet/logMeal' component={BuildMealPage} />
                     <Route exact path='/diet' component={DietPage} />
                     <Route path="/workouts/addWorkout" component={WorkoutPage} />
                     <Route exact path="/workouts" render={props => <WorkoutsHomePage {...props} />} />

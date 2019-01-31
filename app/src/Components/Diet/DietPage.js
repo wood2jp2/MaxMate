@@ -1,11 +1,9 @@
 import React from 'react'
-import SearchForm from './SearchForm'
 
 const DietPage = props => (
     <div>
         <p>This is the Diet page</p>
-        <button onClick={() => props.history.push('/diet/buildMeal')}>Build a meal</button>
-        <SearchForm />
+        <button onClick={() => props.history.push('/diet/logMeal')}>Log a meal</button>
     </div>
 )
 
