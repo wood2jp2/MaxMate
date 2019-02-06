@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,12 @@
   },
   "homepage": "https://github.com/wood2jp2/MaxMate#readme",
   "dependencies": {
+    "assert": "^1.4.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "mongodb": "^3.1.13",
     "mongoose": "^5.4.6",
+    "nodemon": "^1.18.9",
     "react-contenteditable": "^3.2.6"
   },
   "devDependencies": {
