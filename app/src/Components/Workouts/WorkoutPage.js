@@ -56,15 +56,14 @@ class WorkoutPage extends Component {
                 scheduledFor: this.state.scheduledFor,
                 createdAt: moment().format("MMM Do YYYY")
             })
-            axios.get('http://localhost:8008/api/testReactCall')
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
 
             axios.post('http://localhost:8008/api/testInsertExercises', {
-                exercises: [...this.state.exercises]
+                data: {
+                    workout: [...this.state.exercises]
+                }
             })
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
         }
         else {
             this.editWorkout()

@@ -8,11 +8,10 @@ const port = process.env.PORT || 8008
 
 app.use(cors())
 app.use(express.static(__dirname + '/www'))
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+
+// THESE ARE REQUIRED TO PROPERLY READ DATA REQUESTS SUCH AS POST
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded()); // to support URL-encoded bodies
 
 app.get('/', (req, res) => res.send("Hello World!"))
 
@@ -27,11 +26,16 @@ app.get('/api/testInsertDocs', (req, res) => {
 })
 
 app.post('/api/testInsertExercises', (req, res) => {
-    console.log(req.data)
-    const dataExercises = [...req.data.exercises]
-    insertDocuments(database, 'exercises', dataExercises, resultObj =>{
-        console.log("RESULT OF INSERT: ", resultObj)
-    })
+    try {
+        const workoutToAdd = { workout: [...req.body.data.workout] }
+        insertDocuments(database, 'workouts', workoutToAdd, resultObj =>{
+            console.log("RESULT OF INSERT: ", resultObj)
+        })
+    }
+    catch (err) {
+        console.log(err)
+    }
+
     res.send("Data has been inserted. Test has succeeded: ")
 })
 
@@ -56,10 +60,7 @@ const insertDocuments = (db, collection, data, callback) => {
     // Get the documents collection
     const table = db.collection(collection)
 
-    table.insertMany([
-        ...data
-      ], (err, result) => {
-
+    table.insert(data, (err, result) => {
         console.log(`Inserted ${result.ops.length} documents into the collection`)
         callback(result)
       });
