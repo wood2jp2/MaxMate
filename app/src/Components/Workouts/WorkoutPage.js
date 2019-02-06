@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { addWorkout, removeWorkout, editWorkout } from '../../Actions/workouts'
 import WorkoutsForm from './WorkoutsForm'
 import moment from 'moment'
+import axios from 'axios'
 
 class WorkoutPage extends Component {
     state = {
@@ -55,6 +56,15 @@ class WorkoutPage extends Component {
                 scheduledFor: this.state.scheduledFor,
                 createdAt: moment().format("MMM Do YYYY")
             })
+            axios.get('http://localhost:8008/api/testReactCall')
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+
+            axios.post('http://localhost:8008/api/testInsertExercises', {
+                exercises: [...this.state.exercises]
+            })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
         }
         else {
             this.editWorkout()
