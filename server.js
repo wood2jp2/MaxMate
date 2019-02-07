@@ -1,8 +1,9 @@
-const express = require('express')
+import express from 'express'
 const app = express()
-const cors = require('cors')
-const MongoDB = require('mongodb').MongoClient
-const assert = require('assert')
+
+import cors from 'cors'
+import { MongoClient as MongoDB } from 'mongodb'
+import assert from 'assert'
 
 const port = process.env.PORT || 8008
 
@@ -23,6 +24,10 @@ app.get('/api/testInsertDocs', (req, res) => {
         console.log("RESULT OF INSERT: ", resultObj)
     })
     res.send("Data has been inserted. Test has succeeded.")
+})
+
+app.get('/api/deleteWorkout/:id', (req, res) => {
+    const workoutToDelete = [req.params.id]
 })
 
 app.post('/api/testInsertExercises', (req, res) => {
@@ -60,9 +65,9 @@ const insertDocuments = (db, collection, data, callback) => {
     // Get the documents collection
     const table = db.collection(collection)
 
-    table.insert(data, (err, result) => {
-        console.log(`Inserted ${result.ops.length} documents into the collection`)
+    table.insertOne(data, (err, result) => {
+        console.log(`Inserted ${result.ops.length} ${result.ops.length > 1 ? 'documents' : 'document'} into the collection`)
         callback(result)
-      });
-  }
+    });
+}
 
