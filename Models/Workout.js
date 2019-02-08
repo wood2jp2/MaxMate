@@ -2,7 +2,19 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const WorkoutSchema = new Schema({
-    workout: {
+    _id: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: String,
+        required: true
+    },
+    scheduledFor: {
+        type: Date,
+        required: true
+    },
+    exercises: {
         type: Array,
         required: true
     }

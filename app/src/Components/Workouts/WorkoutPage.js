@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { addWorkout, removeWorkout, editWorkout } from '../../Actions/workouts'
 import WorkoutsForm from './WorkoutsForm'
 import moment from 'moment'
-import axios from 'axios'
+
 
 class WorkoutPage extends Component {
     state = {
@@ -13,19 +13,19 @@ class WorkoutPage extends Component {
         exercises: [],
         scheduledFor: moment(),
         datepickerFocused: false,
-        id: null
+        _id: null
     }
 
     componentWillMount = () => {
         const routeIdParam = this.props.match.params.id
 
         if (!!routeIdParam) {
-            const workoutToEdit = [...this.props.workouts].filter(workout => workout.id === routeIdParam)[0]
+            const workoutToEdit = [...this.props.workouts].filter(workout => workout._id === routeIdParam)[0]
 
             this.setState(() => ({
                 exercises: workoutToEdit.exercises,
                 scheduledFor: workoutToEdit.scheduledFor,
-                id: routeIdParam
+                _id: routeIdParam
             }))
         }
     }
@@ -50,20 +50,12 @@ class WorkoutPage extends Component {
 
     onSubmitWorkout = () => {
         // addWorkout action is added to the props of this component thanks to redux. We can access it and pass in the correct params by just accessing props.
-        if (this.state.id === null) {
+        if (this.state._id === null) {
             this.props.addWorkout({
                 exercises: [...this.state.exercises], 
                 scheduledFor: this.state.scheduledFor,
                 createdAt: moment().format("MMM Do YYYY")
             })
-
-            axios.post('http://localhost:8008/api/testInsertExercises', {
-                data: {
-                    workout: [...this.state.exercises]
-                }
-            })
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
         }
         else {
             this.editWorkout()
@@ -120,7 +112,7 @@ class WorkoutPage extends Component {
     editWorkout = () => {
         console.log("SCHEDULED FOR EDIT: ", this.state.scheduledFor)
         this.props.editWorkout({
-            id: this.state.id, 
+            _id: this.state._id, 
             exercises: [...this.state.exercises], 
             scheduledFor: this.state.scheduledFor
         })
@@ -128,7 +120,7 @@ class WorkoutPage extends Component {
 
     deleteWorkout = () => {
         console.log('request to delete workout')
-        this.props.removeWorkout({id: this.props.match.params.id})
+        this.props.removeWorkout({ _id: this.props.match.params.id })
         this.props.history.push('/workouts')
     }
 

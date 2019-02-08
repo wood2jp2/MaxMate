@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Exercise from './Exercise'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
  const Workout = props => (
     <div>

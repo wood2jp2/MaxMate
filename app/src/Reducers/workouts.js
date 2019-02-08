@@ -1,17 +1,43 @@
+import axios from 'axios'
+
 const workoutsReducerDefaultState = []
 
-export default (state = workoutsReducerDefaultState, { type, id, workout, exercises, scheduledFor }) => {
+export default (state = workoutsReducerDefaultState, { type, _id, workout, exercises, scheduledFor }) => {
     switch (type) {
         case "ADD_WORKOUT":
             console.log("ADDING WORKOUT REDUCER")
+            console.log(workout)
+
+            axios.post('http://localhost:8008/api/addWorkout', {
+                data: {
+                    workout
+                }
+            })
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+
             return [...state, workout]
         case "REMOVE_WORKOUT":
             console.log("REMOVING WORKOUT REDUCER")
-            return [...state].filter(workout => workout.id !== id)
+
+            axios.delete(`http://localhost:8008/api/deleteWorkout/${_id}`)
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+
+            return [...state].filter(workout => workout._id !== _id)
         case "EDIT_WORKOUT":
             console.log("EDITING WORKOUT REDUCER")
-            const workoutToEdit = [...state].filter(workout => workout.id === id)[0]
-            const revisedState = [...state].filter(workout => workout.id !== id)
+            const workoutToEdit = [...state].filter(workout => workout._id === _id)[0]
+            const revisedState = [...state].filter(workout => workout._id !== _id)
+
+            axios.put(`http://localhost:8008/api/editWorkout/${_id}`, {
+                data: {
+                    exercises,
+                    scheduledFor
+                }
+            })
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
 
             workoutToEdit.exercises = exercises
             workoutToEdit.scheduledFor = scheduledFor

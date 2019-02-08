@@ -16,7 +16,7 @@ const WorkoutsHomePage = props => (
                         props.workouts.map((workout, index) => (
                             <div key={index}>
                                 <Workout
-                                    id={workout.id}
+                                    id={workout._id}
                                     index={index+1}
                                     scheduledFor={moment(workout.scheduledFor._d).format("MMM Do YYYY")}
                                     createdAt={workout.createdAt}
