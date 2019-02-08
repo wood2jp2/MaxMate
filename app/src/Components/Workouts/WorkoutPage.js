@@ -5,7 +5,6 @@ import { addWorkout, removeWorkout, editWorkout } from '../../Actions/workouts'
 import WorkoutsForm from './WorkoutsForm'
 import moment from 'moment'
 
-
 class WorkoutPage extends Component {
     state = {
         formError: false,

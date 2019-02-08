@@ -36,6 +36,12 @@ app.post('/api/addWorkout', (req, res) => {
     res.send("Workout has been added.")
 })
 
+app.get('/api/getWorkouts', (req, res) => 
+    Workout.find((err, response) => err ? 
+        console.log(err) : 
+        res.send(response))
+)
+
 app.delete('/api/deleteWorkout/:id', (req, res) => {
     const workoutToDelete = req.params.id
     Workout.findByIdAndDelete(workoutToDelete, err => {
@@ -48,7 +54,7 @@ app.delete('/api/deleteWorkout/:id', (req, res) => {
 app.put('/api/editWorkout/:id', (req, res) => {
     const workoutToEdit = req.params.id
 
-    Workout.findByIdAndUpdate(workoutToEdit, {
+    Workout.findOneAndUpdate({ _id: workoutToEdit }, {
         exercises: req.body.data.exercises,
         scheduledFor: req.body.data.scheduledFor
     }, (err, res) => err ? console.log(err): console.log(res))

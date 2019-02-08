@@ -2,11 +2,10 @@ import axios from 'axios'
 
 const workoutsReducerDefaultState = []
 
-export default (state = workoutsReducerDefaultState, { type, _id, workout, exercises, scheduledFor }) => {
+export default (state = workoutsReducerDefaultState, { type, _id, workout, exercises, scheduledFor, dbWorkouts }) => {
     switch (type) {
         case "ADD_WORKOUT":
             console.log("ADDING WORKOUT REDUCER")
-            console.log(workout)
 
             axios.post('http://localhost:8008/api/addWorkout', {
                 data: {
@@ -43,6 +42,10 @@ export default (state = workoutsReducerDefaultState, { type, _id, workout, exerc
             workoutToEdit.scheduledFor = scheduledFor
 
             return [...revisedState, workoutToEdit]
+        case "GET_WORKOUTS":
+            console.log('Getting workouts stored in MongoDB')
+            
+            return [...dbWorkouts]
         default:
             return state
     }

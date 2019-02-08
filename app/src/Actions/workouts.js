@@ -21,3 +21,8 @@ export const editWorkout=({ _id, exercises, scheduledFor }) => ({
     exercises,
     scheduledFor
 })
+
+export const getWorkouts = (dbWorkouts) => ({
+    type: "GET_WORKOUTS",
+    dbWorkouts
+})

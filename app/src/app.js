@@ -24,5 +24,11 @@ const App = (
     </Provider>
 )
 
+// axios.get('http://localhost:8008/api/getWorkouts')
+//     .then(data => {
+//         console.log(data)
+//         workoutsReducer(data, { type: "GET_WORKOUTS" })
+//     })
+//     .catch(err => err)
 
 ReactDOM.render(App, root)
