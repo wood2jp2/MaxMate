@@ -15,7 +15,11 @@ class WorkoutsHomePage extends Component {
         axios.get('http://localhost:8008/api/getWorkouts')
             .then(data => {
                 this.props.getWorkouts( data.data )
-            })
+                console.log("RESULT OF DB CALL: ", data.data)
+                this.setState(prevState => ({ 
+                    workouts: [...prevState.workouts, ...data.data]
+                })
+            )})
             .catch(err => console.log(err))
     }
 

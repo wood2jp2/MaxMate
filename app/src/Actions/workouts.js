@@ -1,4 +1,5 @@
 import uuid from 'uuid'
+import axios from 'axios'
 
 export const addWorkout = ({ exercises = [], createdAt, scheduledFor = 0 }) => ({
     type: "ADD_WORKOUT",
@@ -26,3 +27,16 @@ export const getWorkouts = (dbWorkouts) => ({
     type: "GET_WORKOUTS",
     dbWorkouts
 })
+
+export const callToAPIGetWorkouts = () => {
+    return dispatch => axios.get('http://localhost:8008/api/getWorkouts')
+        .then(response => 
+            dispatch({
+                type: "GET_WORKOUTS_THUNK",
+                payload: {
+                    data: response.data
+                }
+            })
+        )
+        .catch(error => error)
+}
