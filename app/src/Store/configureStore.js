@@ -1,4 +1,4 @@
-import {combineReducers, createStore, applyMiddleware} from 'redux'
+import {combineReducers, createStore, applyMiddleware, compose} from 'redux'
 import workoutsReducer from '../Reducers/workouts'
 import thunk from 'redux-thunk'
 
@@ -9,7 +9,7 @@ export default () => {
         combineReducers({
             workouts: workoutsReducer
         }),
-        applyMiddleware(thunk, reduxChromeExtension)
+        compose(applyMiddleware(thunk), reduxChromeExtension)
     )
     return store
 }
