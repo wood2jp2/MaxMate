@@ -3,7 +3,7 @@ const resolve = path.resolve
 
 const baseConfig = {
     entry: {
-      main: './src/app.js'
+      main: ['babel-polyfill', './src/app.js']
     },
     output: {
         path: resolve('public'),

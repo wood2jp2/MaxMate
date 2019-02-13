@@ -2,8 +2,6 @@ import express from 'express'
 const app = express()
 
 import cors from 'cors'
-import { MongoClient as MongoDB } from 'mongodb'
-import assert from 'assert'
 import mongoose from 'mongoose'
 
 const port = process.env.PORT || 8008

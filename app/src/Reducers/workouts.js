@@ -44,7 +44,18 @@ export default (state = workoutsReducerDefaultState, { type, _id, workout, exerc
             return [...revisedState, workoutToEdit]
         case "GET_WORKOUTS":
             console.log('Getting workouts stored in MongoDB')
+
+            // async function getWorkouts() {
+            //     let res = axios.get('http://localhost:8008/api/getWorkouts')
+            //     .then(response => response.data)
+            //     .catch(err => console.log(err))
+
+            //     let result = await res
+            //     return result
+            // }
             
+            // let re = getWorkouts()
+            // console.log(re)
             return [...dbWorkouts]
         default:
             return state

@@ -49,6 +49,8 @@ class WorkoutPage extends Component {
 
     onSubmitWorkout = () => {
         // addWorkout action is added to the props of this component thanks to redux. We can access it and pass in the correct params by just accessing props.
+        console.log('submitting workot')
+        
         if (this.state._id === null) {
             this.props.addWorkout({
                 exercises: [...this.state.exercises], 

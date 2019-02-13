@@ -13,11 +13,13 @@ class WorkoutsHomePage extends Component {
 
     componentWillMount = () => {
         axios.get('http://localhost:8008/api/getWorkouts')
-            .then(data => {
-                this.props.getWorkouts( data.data )
-                console.log("RESULT OF DB CALL: ", data.data)
+            .then(response => {
+                this.props.getWorkouts( response.data )
+
+                console.log("RESULT OF DB CALL: ", response.data)
+                
                 this.setState(prevState => ({ 
-                    workouts: [...prevState.workouts, ...data.data]
+                    workouts: [...response.data]
                 })
             )})
             .catch(err => console.log(err))
@@ -38,7 +40,7 @@ class WorkoutsHomePage extends Component {
                                 <Workout
                                     id={workout._id}
                                     index={index+1}
-                                    scheduledFor={moment(workout.scheduledFor._d).format("MMM Do YYYY")}
+                                    scheduledFor={moment(workout.scheduledFor).format("MMM Do YYYY")}
                                     createdAt={workout.createdAt}
                                     exercises={[...workout.exercises]}
                                 />
