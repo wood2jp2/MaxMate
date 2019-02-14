@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import Workout from './Workout'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { getWorkouts } from '../../Actions/workouts'
-import axios from 'axios'
 
 class WorkoutsHomePage extends Component {
 
@@ -11,18 +9,8 @@ class WorkoutsHomePage extends Component {
         workouts: []
     }
 
-    componentWillMount = () => {
-        axios.get('http://localhost:8008/api/getWorkouts')
-            .then(response => {
-                this.props.getWorkouts( response.data )
-
-                console.log("RESULT OF DB CALL: ", response.data)
-                
-                this.setState(prevState => ({ 
-                    workouts: [...response.data]
-                })
-            )})
-            .catch(err => console.log(err))
+    componentWillMount() {
+        console.log("MOUNT: ", this.props.workouts)
     }
 
     render = () => (
@@ -59,8 +47,8 @@ const mapStateToProps = store => ({
     workouts: store.workouts
 }) 
 
-const mapDispatchToProps = dispatch => ({
-    getWorkouts: (dbWorkouts) => (dispatch(getWorkouts(dbWorkouts)))
-})
+// const mapDispatchToProps = dispatch => ({
+//     getWorkouts: (dbWorkouts) => (dispatch(getWorkouts(dbWorkouts)))
+// })
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkoutsHomePage)
+export default connect(mapStateToProps)(WorkoutsHomePage)
