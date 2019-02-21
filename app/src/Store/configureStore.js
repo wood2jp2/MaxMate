@@ -9,9 +9,9 @@ let initialState = {
     workouts: []
 }
 
-axios.get('http://localhost:8008/api/getWorkouts')
-    .then(response => initialState.workouts = [...response.data])
-    .catch(err => console.log(err))
+// axios.get('http://localhost:8008/api/getWorkouts')
+//     .then(response => initialState.workouts = [...response.data])
+//     .catch(err => console.log(err))
 
 export default () => {
     const store = createStore(
@@ -21,5 +21,6 @@ export default () => {
         initialState,
         compose(applyMiddleware(thunk), reduxChromeExtension)
     )
+
     return store
 }

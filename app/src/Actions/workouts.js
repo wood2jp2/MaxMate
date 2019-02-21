@@ -1,5 +1,4 @@
 import uuid from 'uuid'
-import axios from 'axios'
 
 export const addWorkout = ({ exercises = [], createdAt, scheduledFor = 0 }) => ({
     type: "ADD_WORKOUT",

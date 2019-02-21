@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 
 class WorkoutsHomePage extends Component {
-
     state = {
         workouts: []
     }

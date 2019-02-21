@@ -7,6 +7,8 @@ import configureStore from './Store/configureStore'
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
 
+import axios from 'axios'
+
 const store = configureStore()
 
 store.subscribe(() => {
@@ -24,4 +26,10 @@ const App = (
     </Provider>
 )
 
-ReactDOM.render(App, root)
+axios.get('http://localhost:8008/api/getWorkouts')
+    .then(response => {
+        let state = store.getState()
+        state.workouts = [...response.data]
+        ReactDOM.render(App, root)
+    })
+    .catch(err => console.log(err))
