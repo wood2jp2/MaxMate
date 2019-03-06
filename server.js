@@ -6,6 +6,9 @@ import mongoose from 'mongoose'
 
 const port = process.env.PORT || 8008
 
+import dotenv from 'dotenv'
+const dotenvConfig = dotenv.config()
+
 import User from './Models/User'
 import Workout from './Models/Workout'
 
@@ -62,7 +65,8 @@ app.put('/api/editWorkout/:id', (req, res) => {
 
 app.listen(port, () => console.log("Good Morning. Server listening on " + port))
 
-const url = 'mongodb://localhost:27017/MaxMate';
+const url = 'mongodb://localhost:27017/MaxMate'
+const mongoUrl = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`
 
 // var Josh = new User({ 
 //     email: 'wood2jp2@gmail.com', 
