@@ -23,6 +23,8 @@ app.post('/api/registerUser', (req, res) => {
 
 })
 
+app.get('/', (req, res) => res.send('attempting to get Heroku up and running'))
+
 app.post('/api/addWorkout', (req, res) => {
 
     try {
